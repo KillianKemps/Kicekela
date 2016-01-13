@@ -44,6 +44,7 @@ var StudentListView = Backbone.View.extend({
       targetModel.set({
         present: inputValue === 'present'
       });
+      targetModel.save();
     }
 
     this.render();
