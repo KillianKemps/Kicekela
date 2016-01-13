@@ -22,6 +22,8 @@ var StudentListView = Backbone.View.extend({
 
     this.allStudentsCollection.add(newStudentModel);
 
+    newStudentModel.save();
+
     this.render();
   },
 
@@ -70,6 +72,9 @@ var StudentListView = Backbone.View.extend({
 
   initialize: function() {
     this.allStudentsCollection = new StudentCollection();
+
+    this.allStudentsCollection.fetch();
+
 
     this.render();
   },
