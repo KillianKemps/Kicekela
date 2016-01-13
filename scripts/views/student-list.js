@@ -12,13 +12,16 @@ var StudentListView = Backbone.View.extend({
     event.preventDefault();
 
     var $form = $(event.currentTarget);
-    var studentName = $form.find('.student-name').val();
-    var studentSurname = $form.find('.student-surname').val();
+    var $studentName = $form.find('.student-name');
+    var $studentSurname = $form.find('.student-surname');
 
     var newStudentModel = new StudentModel({
-      name: studentName,
-      surname: studentSurname
+      name: $studentName.val(),
+      surname: $studentSurname.val()
     });
+
+    $studentName.val('');
+    $studentSurname.val('');
 
     this.allStudentsCollection.add(newStudentModel);
 
