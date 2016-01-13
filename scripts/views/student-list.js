@@ -31,10 +31,10 @@ var StudentListView = Backbone.View.extend({
     var $input = $(event.currentTarget);
     var inputValue = $input.val();
 
-    var studentName = $input.parents('li').attr('data-name');
+    var studentId = $input.parents('li').attr('data-id');
 
     var targetModel = this.allStudentsCollection.findWhere({
-      name: studentName
+      id: studentId
     });
 
     if(targetModel) {
@@ -56,7 +56,7 @@ var StudentListView = Backbone.View.extend({
     }
 
     var studentTemplate = '\
-      <li data-name="' + studentData.name + '">\
+      <li data-id="' + studentData.id + '">\
         <p>' + studentData.surname + ' ' + studentData.name + '</p>\
         <form>\
           <label for="present">Present</label>\
@@ -74,7 +74,6 @@ var StudentListView = Backbone.View.extend({
     this.allStudentsCollection = new StudentCollection();
 
     this.allStudentsCollection.fetch();
-
 
     this.render();
   },
