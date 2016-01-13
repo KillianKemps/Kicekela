@@ -50,29 +50,17 @@ var StudentListView = Backbone.View.extend({
     this.render();
   },
 
-  getTemplate: function(studentData) {
-    var isPresentChecked = '';
-    var isNotPresentChecked = 'checked';
-
-    if(studentData.present) {
-      isPresentChecked = 'checked';
-      isNotPresentChecked =  '';
-    }
-
-    var studentTemplate = '\
-      <li data-id="' + studentData.id + '">\
-        <p>' + studentData.surname + ' ' + studentData.name + '</p>\
-        <form>\
-          <label for="present">Present</label>\
-          <input ' + isPresentChecked + ' type="radio" class="student-present" name="student" value="present">\
-          <label for="absent">Absent</label>\
-          <input ' + isNotPresentChecked + ' type="radio" class="student-absent" name="student" value="absent">\
-        </form>\
-      </li>\
-    ';
-
-    return $(studentTemplate);
-  },
+  my_template: _.template('<% _.each(allStudents, function(student){ %>\
+                            <li data-id="<%= student.id %>">\
+                              <p> <%= student.surname %> <%= student.name %> </p>\
+                              <form>\
+                                <label for="present">Present</label>\
+                                <input <% if(student.present) { %> checked <% } %> type="radio" class="student-present" name="student" value="present">\
+                                <label for="absent">Absent</label>\
+                                <input <% if(!student.present) { %> checked  <% } %> type="radio" class="student-absent" name="student" value="absent">\
+                              </form>\
+                            </li>\
+                          <% }); %>'),
 
   initialize: function() {
     this.allStudentsCollection = new StudentCollection();
@@ -101,11 +89,8 @@ var StudentListView = Backbone.View.extend({
       if(student.present) {
         presentStudents++;
       }
-
-      var studentTemplate = this.getTemplate(student);
-
-      $renderTarget.append(studentTemplate);
     }
+    $renderTarget.html(this.my_template({allStudents: allStudents}));
 
     $studentTotal.text(allStudents.length);
     $studentPresentTotal.text(presentStudents);
